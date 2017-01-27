@@ -18,5 +18,7 @@ public interface TodolistService {
 	Task addTask(String taskName, int statusId);
 
 	List<TaskStatus> listTaskStatus();
+	
+	Task finishTask(long idTask);
 
 }

@@ -25,29 +25,29 @@ public class TodolistServiceImpl implements TodolistService {
 
 	@Autowired
 	private UserDao userDao;
-	
+
 	@Autowired
 	private TaskDao taskDao;
-	
+
 	@Autowired
 	private TaskStatusDao taskStatusDao;
-	
+
 	@Autowired
 	private TaskOwnerDao taskOwnerDao;
 
 	@Override
 	public List<Task> archiveTasks() {
-		Calendar cal = Calendar.getInstance(); 
+		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MONTH, 1);
-		List<Task> tasksToArchive =  taskDao.findAllByClosedDateBefore(cal.getTime());
-		for(Task task:tasksToArchive){
+		List<Task> tasksToArchive = taskDao.findAllByClosedDateBefore(cal.getTime());
+		for (Task task : tasksToArchive) {
 			task.setStatus(new TaskStatus(TaskStatusEnum.ARCHIVED.getValue()));
 			taskDao.save(task);
 		}
 		return tasksToArchive;
 	}
-	
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
 	public Task affectTaskToUser(long idTask, long idUser) {
 		Task task = taskDao.findOne(idTask);
@@ -59,7 +59,7 @@ public class TodolistServiceImpl implements TodolistService {
 		return taskDao.save(task);
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
 	public Task acceptDelegatedTask(long delegatedTaskId, long delegateUserId) {
 		Task task = taskDao.findOne(delegatedTaskId);
@@ -75,11 +75,28 @@ public class TodolistServiceImpl implements TodolistService {
 	@Override
 	public Task addTask(String taskName, int statusId) {
 		return taskDao.save(new Task(taskName, statusId));
-		
+
 	}
 
 	@Override
 	public List<TaskStatus> listTaskStatus() {
 		return taskStatusDao.findAll();
+	}
+
+	@Override
+	public Task finishTask(long idTask) {
+		Task task = taskDao.findOne(idTask);
+
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, -7);
+
+		if (cal.getTime().getTime() > task.getBeginDate().getTime()
+				&& task.getStatus().getId() != TaskStatusEnum.FINISHED.getValue()) {
+			task.setStatus(new TaskStatus(TaskStatusEnum.FINISHED.getValue()));
+			return taskDao.save(task);
+		}
+
+		return task;
+
 	}
 }

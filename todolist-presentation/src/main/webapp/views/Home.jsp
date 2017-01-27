@@ -8,7 +8,7 @@
 </head>
 <body>
  	<c:forEach items="${tasks}" var="task">
-     	<div>${task.name} - ${task.status.name}</div>
+     	<div>${task.name} - ${task.status.name} <a href="/todolist-presentation/close/${task.id}">Terminer la tâche</a> </div>
 	 </c:forEach>
 </body>
 </html>

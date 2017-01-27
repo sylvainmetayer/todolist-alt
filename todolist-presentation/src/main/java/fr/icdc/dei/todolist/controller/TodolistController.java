@@ -2,6 +2,7 @@ package fr.icdc.dei.todolist.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,4 +41,11 @@ public class TodolistController {
 		return page;
 	}
 
+	@RequestMapping(value = "close/{idTask}", method = RequestMethod.GET)
+	public ModelAndView closeTask(@PathVariable long idTask) {
+		ModelAndView page = new ModelAndView("Home");
+		todolistService.finishTask(idTask);
+		page.addObject(TASKS_HTTP_ATTR, todolistService.listTasks());
+		return page;
+	}
 }
