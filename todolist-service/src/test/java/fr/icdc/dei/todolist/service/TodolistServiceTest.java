@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.icdc.dei.todolist.persistence.entity.Task;
+import fr.icdc.dei.todolist.persistence.entity.TaskStatus;
 import fr.icdc.dei.todolist.persistence.entity.User;
 import fr.icdc.dei.todolist.service.enums.TaskStatusEnum;
 
@@ -21,7 +22,7 @@ public class TodolistServiceTest extends AbstractServiceTest {
 	private static final long USER_ID = 1L;
 	private static final long DELEGATE_USER_ID = 2L;
 
-	private static final long DATE_ENDING_LESS_THAN_A_WEEK =1L;
+	private static final long DATE_ENDING_LESS_THAN_A_WEEK =4L;
 	private static final long DATE_ENDING_MORE_THAN_A_WEEK = 2L;
 
 	private static User user = new User();
@@ -37,6 +38,7 @@ public class TodolistServiceTest extends AbstractServiceTest {
 		user.setId(USER_ID);
 		task.setId(TASK_TO_AFFECT_ID);
 		taskDateEndingLessThanAWeek.setId(DATE_ENDING_LESS_THAN_A_WEEK);
+		taskDateEndingLessThanAWeek.setStatus(new TaskStatus(TaskStatusEnum.STARTED.getValue()));
 		taskDateEndingMoreThanAWeek.setId(DATE_ENDING_MORE_THAN_A_WEEK);
 	}
 
@@ -81,7 +83,7 @@ public class TodolistServiceTest extends AbstractServiceTest {
 	@Test
 	public void testTaskFinishedLessThanAWeekStaysTheSame() {
 		assertEquals(todolistService.finishTask(taskDateEndingLessThanAWeek.getId()).getStatus().getId(),
-				TaskStatusEnum.DELEGATION_PENDING.getValue());
+				taskDateEndingLessThanAWeek.getStatus().getId());
 	}
 
 }
