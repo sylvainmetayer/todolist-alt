@@ -8,7 +8,7 @@
 	<name>TODOLIST</name>
 
 	<properties>
-		<spring.data.version>1.8.2.RELEASE</spring.data.version>
+		<spring.data.version>1.11.23.RELEASE</spring.data.version>
 		<junit.version>4.12</junit.version>
 		<mysql.connector.version>5.1.36</mysql.connector.version>
 		<bonecp.version>0.8.0.RELEASE</bonecp.version>
