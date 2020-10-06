@@ -10,7 +10,7 @@
 	<properties>
 		<spring.data.version>1.8.2.RELEASE</spring.data.version>
 		<junit.version>4.12</junit.version>
-		<mysql.connector.version>5.1.36</mysql.connector.version>
+		<mysql.connector.version>8.0.16</mysql.connector.version>
 		<bonecp.version>0.8.0.RELEASE</bonecp.version>
 		<hsqldb.version>2.3.3</hsqldb.version>
 		<hibernate.version>4.3.10.Final</hibernate.version>
